@@ -21,10 +21,10 @@ This project is a microservices-based system for managing module information and
 
 ## Project Structure
 
-- `backend/ModuleService/`: Contains all code for the module service.
-- `backend/ReviewService/`: Contains all code for the review service.
-- `frontend/`: Contains all React code for the frontend application.
-- `docker-compose.yml`: Configuration file to orchestrate the services with Docker Compose.
+- `services/backend/ModuleService/`: Contains all code for the module service.
+- `services/backend/ReviewService/`: Contains all code for the review service.
+- `services/frontend/`: Contains all React code for the frontend application.
+- `services/docker-compose.yml`: Configuration file to orchestrate the services with Docker Compose.
 
 ## Getting Started
 
@@ -45,7 +45,7 @@ Alternatively
 2. **Set up the Module Service**
 
    ```bash
-   cd backend/ModuleService
+   cd services/backend/ModuleService
    npm install
    npm start
    ```
@@ -53,7 +53,7 @@ Alternatively
 3. **Set up the Review Service**
 
    ```bash
-   cd backend/ReviewService
+   cd services/backend/ReviewService
    npm install
    npm start
    ```
@@ -61,7 +61,7 @@ Alternatively
 4. **Set up and run the Frontend**
 
    ```bash
-   cd frontend
+   cd services/frontend
    npm install
    npm start
    ```
@@ -72,7 +72,13 @@ Alternatively
 
 2. **Ensure Docker is running**
 
-3. **Run with Docker Compose**
+3. Navigate into `services` directory
+
+```bash
+cd services
+```
+
+4. **Run with Docker Compose**
 
 ```bash
 docker-compose up --build
