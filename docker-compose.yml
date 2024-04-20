@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules # Anonymous Volume
+    networks:
+      - mod-network
+
+  module-service:
+    build: ./backend/ModuleService
+    ports:
+      - 3001:3001
+    volumes:
+      - ./backend/ModuleService:/app
+      - /app/node_modules # Anonymous Volume
+    networks:
+      - mod-network
+  
+  review-service:
+    build: ./backend/ReviewService
+    ports:
+      - 3002:3002
+    volumes:
+      - ./backend/ReviewService:/app
+      - /app/node_modules # Anonymous Volume
+    networks:
+      - mod-network
+
+networks:
+  mod-network:
+    driver: bridge
