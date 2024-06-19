@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/modules")
+      .get("http://localhost:3005/api/module_service/modules")
       .then((response) => setModules(response.data))
       .catch((error) => console.error("Error fetching modules:", error));
   }, []);
@@ -29,7 +29,9 @@ function App() {
 
   const fetchReviews = (moduleId) => {
     axios
-      .get(`http://localhost:3002/reviews/module/${moduleId}`)
+      .get(
+        `http://localhost:3005/api/review_service/reviews/module/${moduleId}`
+      )
       .then((response) => setReviews(response.data))
       .catch((error) => console.error("Error fetching reviews:", error));
   };
