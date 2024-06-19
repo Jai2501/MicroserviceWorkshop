@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+const axios = require("axios");
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -28,7 +30,7 @@ let reviews = [
     rating: 5,
   },
   {
-    id: 3,
+    id: 4,
     moduleId: 3,
     reviewer: "Annabelle Chan",
     review: "A tough course!",
@@ -52,8 +54,28 @@ app.get("/reviews/module/:moduleId", (req, res) => {
 });
 
 // POST a new review
-app.post("/reviews", (req, res) => {
+app.post("/reviews", async (req, res) => {
   const { moduleId, reviewer, review, rating } = req.body;
+
+  // Check if module id exists
+  try {
+    const result = await axios.get(
+      "http://module-service:3001/modules/" + moduleId
+    );
+
+    if (result.status !== 200) {
+      res.status(404).send({
+        error: "The module with the given ID was not found.",
+      });
+      return;
+    }
+  } catch (err) {
+    res.status(404).send({
+      error: "The module with the given ID was not found.",
+    });
+    return;
+  }
+
   const newReview = {
     id: reviews.length + 1,
     moduleId,
