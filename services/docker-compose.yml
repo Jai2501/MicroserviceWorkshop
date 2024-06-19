@@ -1,6 +1,11 @@
-version: "3.9"
-
 services:
+  custom-nginx:
+    build: ./api_gateway
+    ports:
+      - 3005:80
+    networks:
+      - mod-network
+
   frontend:
     build: ./frontend
     ports:
