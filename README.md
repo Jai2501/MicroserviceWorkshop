@@ -38,6 +38,8 @@ This project is a microservices-based system for managing module information and
 
 - Docker
 - Docker Compose
+- Python (for CLI Client)
+- Xcode 15.2+ (for iOS App)
 
 ### Installation
 
@@ -58,6 +60,8 @@ docker-compose up --build
 ```
 
 This command builds the images for the services in the `docker-compose.yml` file and starts the containers.
+
+> :exclamation: The build process may take a while, depending on the network speed and PC specifications.
 
 ### Using the Web Application
 
