@@ -15,10 +15,10 @@ function ReviewForm({ moduleId, fetchReviews }) {
     }
 
     axios
-      .post("http://localhost:3002/reviews", {
+      .post("http://localhost:3005/api/review_service/reviews", {
         moduleId: parseInt(moduleId, 10),
         review: reviewText,
-        rating: rating,
+        rating: parseInt(rating, 10),
       })
       .then(() => {
         fetchReviews();
