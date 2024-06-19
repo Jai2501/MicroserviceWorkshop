@@ -1,8 +1,32 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const client = require("prom-client");
+
+// Middleware
 app.use(cors());
 app.use(express.json());
+
+// Create a Registry which registers the metrics
+const register = new client.Registry();
+
+// Add a default label which is added to all metrics
+register.setDefaultLabels({
+  app: "Module-Service",
+});
+
+// Create a counter metric
+const requestCounter = new client.Counter({
+  name: "http_requests_total",
+  help: "Total number of HTTP requests",
+  labelNames: ["method", "route", "status_code"],
+});
+
+// Register the counter with the registry
+register.registerMetric(requestCounter);
+
+// Enable the collection of default metrics
+client.collectDefaultMetrics({ register });
 
 // Sample Data
 const modules = [
@@ -10,6 +34,24 @@ const modules = [
   { id: 2, code: "CS2030S", name: "Programming Methodology II" },
   { id: 3, code: "CS2040S", name: "Data Structures and Algorithms" },
 ];
+
+// Middleware to count requests
+app.use((req, res, next) => {
+  res.on("finish", () => {
+    requestCounter.inc({
+      method: req.method,
+      route: req.route ? req.route.path : req.originalUrl,
+      status_code: res.statusCode,
+    });
+  });
+  next();
+});
+
+// GET metrics
+app.get("/metrics", async (req, res) => {
+  res.setHeader("Content-Type", register.contentType);
+  res.send(await register.metrics());
+});
 
 // GET all modules
 app.get("/modules", (req, res) => {
